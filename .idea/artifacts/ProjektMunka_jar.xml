@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ProjektMunka:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ProjektMunka_jar</output-path>
+    <root id="archive" name="ProjektMunka.jar">
+      <element id="module-output" name="ProjektMunka" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/Apis/mysql-connector.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
