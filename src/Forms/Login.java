@@ -29,16 +29,7 @@ public class Login extends javax.swing.JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usrTextField.getText();
-                String pw = passTextField.getText();
-                String dbPw = connection.getPass(username);
-
-                if (!pw.equals(dbPw)) {
-                    JOptionPane.showMessageDialog(null, "Login failed...");
-                    return;
-                }
-                setVisible(false);
-                new List().setVisible(true);
+                loginProcess();
             }
         });
         registerButton.addActionListener(new ActionListener() {
@@ -54,18 +45,23 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    String username = usrTextField.getText();
-                    String pw = passTextField.getText();
-                    String dbPw = connection.getPass(username);
-
-                    if (!pw.equals(dbPw)){
-                        JOptionPane.showMessageDialog(null, "Login failed...");
-                        return;
-                    }
-                    setVisible(false);
-                    new List().setVisible(true);
+                    loginProcess();
                 }
             }
         });
     }
+
+    private void loginProcess(){
+        String username = usrTextField.getText();
+        String pw = passTextField.getText();
+        String dbPw = connection.getPass(username);
+
+        if (!pw.equals(dbPw)) {
+            JOptionPane.showMessageDialog(null, "Login failed...");
+            return;
+        }
+        setVisible(false);
+        new List().setVisible(true);
+    }
+
 }

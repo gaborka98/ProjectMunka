@@ -5,6 +5,8 @@ import myClass.Device;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class List extends JFrame{
     private Mysqlconn conn = new Mysqlconn();
@@ -12,6 +14,8 @@ public class List extends JFrame{
 
     private JPanel panel1 = new JPanel();
     private JTable table1;
+    private JButton lefoglalButton;
+    private JButton leadButton;
 
 
     public List() {
@@ -31,5 +35,18 @@ public class List extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(false);
+        lefoglalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: updatelni a db-ben a Rented oszlopot
+            }
+        });
+        leadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: updatelni a db-ben a Rented oszlopot
+
+            }
+        });
     }
 }
