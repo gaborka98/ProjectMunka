@@ -12,11 +12,45 @@ public class Mysqlconn {
     public Mysqlconn() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://192.168.1.9:3306/projekt", "projekt", "projekt123");
+            conn = DriverManager.getConnection("jdbc:mysql://gaborka98.mooo.com:3306/projekt", "projekt", "projekt123");
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean lefoglal(int index) {
+        int action = -1;
+        try {
+            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET Rented=? WHERE ID=?");
+            lefoglal.setBoolean(1, true);
+            lefoglal.setInt(2,index);
+
+            action = lefoglal.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return (action > 0);
+    }
+
+    public boolean lead(int index) {
+        int action = -1;
+        try {
+            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET Rented=? WHERE ID=?");
+            lefoglal.setBoolean(1, false);
+            lefoglal.setInt(2,index);
+
+            action = lefoglal.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return (action > 0);
     }
 
     public ArrayList<Device> getAllDevice() {
@@ -29,7 +63,7 @@ public class Mysqlconn {
             ResultSet rs = getAll.executeQuery();
 
             while (rs.next()) {
-                devices.add(new Device(rs.getBoolean("Rented"),rs.getString("Name")));
+                devices.add(new Device(rs.getInt("ID"), rs.getString("Name"), rs.getBoolean("Rented")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
