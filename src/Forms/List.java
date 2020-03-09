@@ -14,7 +14,7 @@ import java.awt.event.ItemListener;
 
 public class List extends JFrame{
     private Mysqlconn conn = new Mysqlconn();
-    String [] columns = {"ID", "Név", "Foglaltság"};
+    String [] columns = {"ID", "Név", "Foglaltság", "Foglalás dátuma"};
 
     private JPanel panel1;
     private JTable table1;
@@ -36,7 +36,7 @@ public class List extends JFrame{
 
         setContentPane(panel1);
         setTitle("List devices");
-        setSize(400,300);
+        setSize(600,300);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(false);
@@ -96,7 +96,7 @@ public class List extends JFrame{
 
 
         for (Device iter : conn.getAllDevice()) {
-            model.addRow(new Object[]{iter.getIndex(), iter.getNev(), iter.isFoglalt() ? "foglalt" : "szabad"});
+            model.addRow(new Object[]{iter.getIndex(), iter.getNev(), iter.isFoglalt() ? "foglalt" : "szabad", iter.getRentDate()});
         }
 
         if (színesMódCheckBox.isSelected()) {

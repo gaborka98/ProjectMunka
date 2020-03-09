@@ -1,14 +1,19 @@
 package myClass;
 
+import java.util.Date;
+
 public class Device {
-    int index;
+    private int index;
     private boolean foglalt;
     private String nev;
+    private Date rentDate;
 
-    public Device(int index, String name, boolean foglalt) {
+
+    public Device(int index, String name, boolean foglalt, Date rentDate) {
         this.foglalt = foglalt;
         this.nev = name;
         this.index = index;
+        this.rentDate = rentDate;
     }
 
     public boolean isFoglalt() {
@@ -21,5 +26,9 @@ public class Device {
 
     public int getIndex() {
         return index;
+    }
+
+    public Date getRentDate() {
+        return rentDate;
     }
 }

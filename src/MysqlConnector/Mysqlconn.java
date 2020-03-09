@@ -66,7 +66,7 @@ public class Mysqlconn {
             ResultSet rs = getAll.executeQuery();
 
             while (rs.next()) {
-                devices.add(new Device(rs.getInt("ID"), rs.getString("Name"), rs.getBoolean("Rented")));
+                devices.add(new Device(rs.getInt("ID"), rs.getString("Name"), rs.getBoolean("Rented"), rs.getDate("RentDate")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
