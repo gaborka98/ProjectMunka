@@ -4,6 +4,7 @@ import myClass.Device;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Mysqlconn {
@@ -22,9 +23,11 @@ public class Mysqlconn {
     public boolean lefoglal(int index) {
         int action = -1;
         try {
-            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET Rented=? WHERE ID=?");
+            Date rentDate = new Date();
+            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET Rented=?, RentDate=? WHERE ID=?");
             lefoglal.setBoolean(1, true);
-            lefoglal.setInt(2,index);
+            lefoglal.setDate(2, new java.sql.Date(rentDate.getTime()));
+            lefoglal.setInt(3,index);
 
             action = lefoglal.executeUpdate();
 
