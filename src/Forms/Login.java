@@ -1,6 +1,7 @@
 package Forms;
 
 import MysqlConnector.Mysqlconn;
+import myClass.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -54,14 +55,14 @@ public class Login extends javax.swing.JFrame {
     private void loginProcess(){
         String username = usrTextField.getText();
         String pw = passTextField.getText();
-        String dbPw = connection.getPass(username);
+        User loginUser = connection.getUser(username);
 
-        if (!pw.equals(dbPw)) {
+        if (!pw.equals(loginUser.getPassword())) {
             JOptionPane.showMessageDialog(null, "Login failed...");
             return;
         }
         setVisible(false);
-        new List().setVisible(true);
+        new List(loginUser).setVisible(true);
     }
 
 }

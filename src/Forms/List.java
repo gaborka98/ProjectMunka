@@ -2,6 +2,7 @@ package Forms;
 
 import MysqlConnector.Mysqlconn;
 import myClass.Device;
+import myClass.User;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -11,10 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 public class List extends JFrame{
     private Mysqlconn conn = new Mysqlconn();
-    String [] columns = {"ID", "Név", "Foglaltság", "Foglalás dátuma"};
+    private ArrayList<Device> allDevice = conn.getAllDevice();
+    private User loginUser;
+    String [] columns = {"ID", "Név", "Foglaltság"};
 
     private JPanel panel1;
     private JTable table1;
@@ -24,7 +28,7 @@ public class List extends JFrame{
     private JCheckBox színesMódCheckBox;
 
 
-    public List() {
+    public List(User loggedIn) {
         table1.setModel(new DefaultTableModel(columns,0){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -32,6 +36,7 @@ public class List extends JFrame{
             }
         });
 
+        this.loginUser = loggedIn;
         updateList();
 
         setContentPane(panel1);
@@ -48,9 +53,10 @@ public class List extends JFrame{
                 row = table1.getSelectedRow();
                 column = 0;
 
-                int selectedId = (int) table1.getValueAt(row, column);
+                Device rented = findById((int) table1.getValueAt(row, column));
 
-                if (conn.lefoglal(selectedId)){
+                assert rented != null;
+                if (conn.lefoglal(rented, loginUser)){
                     JOptionPane.showMessageDialog(null, "Lefoglalás sikeresen megtörtént!");
                 }
 
@@ -65,9 +71,10 @@ public class List extends JFrame{
                 row = table1.getSelectedRow();
                 column = 0;
 
-                int selectedId = (int) table1.getValueAt(row, column);
+                Device rented = findById((int) table1.getValueAt(row, column));
 
-                if (conn.lead(selectedId)){
+                assert rented != null;
+                if (conn.lead(rented, loginUser)){
                     JOptionPane.showMessageDialog(null, "Leadás sikeresen megtörtént!");
                 }
 
@@ -96,7 +103,7 @@ public class List extends JFrame{
 
 
         for (Device iter : conn.getAllDevice()) {
-            model.addRow(new Object[]{iter.getIndex(), iter.getNev(), iter.isFoglalt() ? "foglalt" : "szabad", iter.getRentDate()});
+            model.addRow(new Object[]{iter.getIndex(), iter.getNev(), iter.isFoglalt() ? "foglalt" : "szabad"});
         }
 
         if (színesMódCheckBox.isSelected()) {
@@ -117,5 +124,12 @@ public class List extends JFrame{
         }
 
         table1.setModel(model);
+    }
+
+    private Device findById(int id) {
+        for(Device iter : allDevice) {
+            if (id == iter.getIndex()) { return iter; }
+        }
+        return null;
     }
 }

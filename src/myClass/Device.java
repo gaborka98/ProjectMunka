@@ -1,19 +1,21 @@
 package myClass;
 
-import java.util.Date;
-
 public class Device {
     private int index;
     private boolean foglalt;
     private String nev;
-    private Date rentDate;
+    private int maxRent;
 
 
-    public Device(int index, String name, boolean foglalt, Date rentDate) {
+    public Device(int index, String name, boolean foglalt, int maxRent) {
         this.foglalt = foglalt;
         this.nev = name;
         this.index = index;
-        this.rentDate = rentDate;
+        this.maxRent = maxRent;
+    }
+
+    public int getMaxRent() {
+        return maxRent;
     }
 
     public boolean isFoglalt() {
@@ -26,9 +28,5 @@ public class Device {
 
     public int getIndex() {
         return index;
-    }
-
-    public Date getRentDate() {
-        return rentDate;
     }
 }
