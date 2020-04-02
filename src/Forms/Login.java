@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class Login extends javax.swing.JFrame {
@@ -44,12 +47,29 @@ public class Login extends javax.swing.JFrame {
         });
     }
 
+    private String encryptStringSha1(String text) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] hash = md.digest(text.getBytes());
+            BigInteger no = new BigInteger(1,hash);
+            String hashedtext = no.toString(16);
+            while (hashedtext.length() < 32) hashedtext = "0" + hashedtext;
+            return hashedtext;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     private void loginProcess(){
         String username = usrTextField.getText();
         String pw = passTextField.getText();
         User loginUser = connection.getUser(username);
 
-        if (!pw.equals(loginUser.getPassword())) {
+        System.out.println(pw + "\t" + username + "\t" + loginUser.getPassword());
+        System.out.println(encryptStringSha1(username + ":" + pw));
+
+        if (!encryptStringSha1(username + ":" + pw).equals(loginUser.getPassword())) {
             JOptionPane.showMessageDialog(null, "Login failed...");
             return;
         }
