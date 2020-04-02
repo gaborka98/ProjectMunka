@@ -17,7 +17,6 @@ public class Login extends javax.swing.JFrame {
     private JPasswordField passTextField;
     private JButton loginButton;
     private JPanel loginForm;
-    private JButton registerButton;
 
     public Login() {
 
@@ -31,13 +30,6 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loginProcess();
-            }
-        });
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                new Register().setVisible(true);
             }
         });
 
