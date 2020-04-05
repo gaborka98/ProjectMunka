@@ -85,8 +85,8 @@ public class List extends JFrame{
         visszaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                new Login().setVisible(true);
+                dispose();
+                new mainMenu(loginUser).setVisible(true);
             }
         });
         színesMódCheckBox.addItemListener(new ItemListener() {

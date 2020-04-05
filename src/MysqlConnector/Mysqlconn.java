@@ -82,7 +82,7 @@ public class Mysqlconn {
             ResultSet rs = getAll.executeQuery();
 
             while (rs.next()) {
-                devices.add(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"),rs.getInt("max_rent")));
+                devices.add(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"),rs.getInt("max_days")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
