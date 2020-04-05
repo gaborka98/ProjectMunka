@@ -12,7 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class List extends JFrame{
     private Mysqlconn conn = new Mysqlconn();
@@ -26,7 +29,7 @@ public class List extends JFrame{
     private JButton leadButton;
     private JButton visszaButton;
     private JCheckBox színesMódCheckBox;
-
+    private JButton frissítésButton;
 
     public List(User loggedIn) {
         table1.setModel(new DefaultTableModel(columns,0){
@@ -55,10 +58,7 @@ public class List extends JFrame{
 
                 Device rented = findById((int) table1.getValueAt(row, column));
 
-                assert rented != null;
-                if (conn.lefoglal(rented, loginUser)){
-                    JOptionPane.showMessageDialog(null, "Lefoglalás sikeresen megtörtént!");
-                }
+                new RentDetail(rented, loginUser).setVisible(true);
 
                 updateList();
 
@@ -85,13 +85,19 @@ public class List extends JFrame{
         visszaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
                 new mainMenu(loginUser).setVisible(true);
+                dispose();
             }
         });
         színesMódCheckBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
+                updateList();
+            }
+        });
+        frissítésButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 updateList();
             }
         });
@@ -131,5 +137,26 @@ public class List extends JFrame{
             if (id == iter.getIndex()) { return iter; }
         }
         return null;
+    }
+
+    private class dateLabelFromatter extends JFormattedTextField.AbstractFormatter {
+
+        private String datePattern = "yyyy-MM-dd";
+        private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+
+        @Override
+        public Object stringToValue(String text) throws ParseException {
+            return dateFormatter.parseObject(text);
+        }
+
+        @Override
+        public String valueToString(Object value) throws ParseException {
+            if (value != null) {
+                Calendar cal = (Calendar) value;
+                return dateFormatter.format(cal.getTime());
+            }
+
+            return "";
+        }
     }
 }

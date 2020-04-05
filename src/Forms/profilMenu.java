@@ -18,7 +18,8 @@ public class profilMenu extends javax.swing.JFrame {
         setContentPane(profilFrame);
         setTitle("Profil");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
+        setSize(400,300);
+        setVisible(false);
 
 
         visszaButton.addActionListener(new ActionListener() {

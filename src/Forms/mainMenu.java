@@ -15,9 +15,10 @@ public class mainMenu extends javax.swing.JFrame {
     public mainMenu(User loginUser){
         setLocationRelativeTo(null);
         setContentPane(mainMenu);
-        setTitle("Login");
+        setTitle("Főmenü");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
+        setSize(400,250);
+        setVisible(false);
 
         eszközökListázásaButton.addActionListener(new ActionListener() {
             @Override

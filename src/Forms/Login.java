@@ -4,22 +4,20 @@ import MysqlConnector.Mysqlconn;
 import myClass.User;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
 public class Login extends javax.swing.JFrame {
-    private Mysqlconn connection = new Mysqlconn();
+    public static Mysqlconn connection = new Mysqlconn();
 
     private JTextField usrTextField;
     private JPasswordField passTextField;
     private JButton loginButton;
     private JPanel loginForm;
+    private JLabel forgottenPassword;
 
     public Login() {
 
@@ -33,6 +31,12 @@ public class Login extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 loginProcess();
+            }
+        });
+
+        forgottenPassword.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+
             }
         });
 
@@ -70,8 +74,8 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Login failed...");
             return;
         }
-        setVisible(false);
         new mainMenu(loginUser).setVisible(true);
+        dispose();
     }
 
 }
