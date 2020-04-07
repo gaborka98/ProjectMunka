@@ -75,6 +75,7 @@ public class Login extends javax.swing.JFrame {
             return;
         }
         new mainMenu(loginUser).setVisible(true);
+
         dispose();
     }
 

@@ -29,5 +29,17 @@ public class profilMenu extends javax.swing.JFrame {
                 dispose();
             }
         });
+        aktuálisanLefoglaltEszközökButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AktualisEszkozok().setVisible(true);
+            }
+        });
+        előzményekButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new history().setVisible(true);
+            }
+        });
     }
 }
