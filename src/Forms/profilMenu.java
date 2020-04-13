@@ -16,8 +16,8 @@ public class profilMenu extends javax.swing.JFrame {
     public profilMenu(User loginUser) {
         setLocationRelativeTo(null);
         setContentPane(profilFrame);
-        setTitle("Profil");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Profilmenu");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400,300);
         setVisible(false);
 
@@ -39,6 +39,12 @@ public class profilMenu extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new history().setVisible(true);
+            }
+        });
+        előreLefoglaltButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Elorefoglalt(loginUser).setVisible(true);
             }
         });
     }
