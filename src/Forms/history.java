@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class history extends javax.swing.JFrame {
     private JPanel panel1;
-    private JButton visszaButton;
     private JTable Nev;
+    private JButton visszaButton;
 
     public history () {
         setLocationRelativeTo(null);
