@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AktualisEszkozok extends javax.swing.JFrame {
-    private JTable Nev;
+    private JTable table;
     private JButton visszaButton;
     private JPanel akt;
 

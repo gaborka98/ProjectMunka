@@ -38,7 +38,7 @@ public class profilMenu extends javax.swing.JFrame {
         előzményekButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new history().setVisible(true);
+                new history(loginUser).setVisible(true);
             }
         });
         előreLefoglaltButton.addActionListener(new ActionListener() {
