@@ -20,8 +20,8 @@
         <properties>
           <background color="-13746290"/>
           <enabled value="true"/>
-          <font name="Century" size="18" style="0"/>
-          <foreground color="-16777216"/>
+          <font name="Century" size="14" style="0"/>
+          <foreground color="-3355444"/>
           <hideActionText value="false"/>
           <horizontalAlignment value="0"/>
           <horizontalTextPosition value="0"/>

@@ -91,6 +91,8 @@
           <gridbag top="0" left="20" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
         </constraints>
         <properties>
+          <background color="-13746290"/>
+          <font name="Century" size="14" style="0"/>
           <text value="Vissza"/>
         </properties>
       </component>
