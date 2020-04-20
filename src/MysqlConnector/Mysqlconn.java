@@ -14,7 +14,7 @@ public class Mysqlconn {
     public Mysqlconn() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://gaborka98.mooo.com:3306/projekt", "projekt", "projekt123");
+            conn = DriverManager.getConnection("jdbc:mysql://192.168.1.9:3306/projekt", "projekt", "projekt123");
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -89,25 +89,7 @@ public class Mysqlconn {
         }
         return devices;
     }
-/*
-    public String getPass(String username){
-        String pw = null;
 
-        try {
-            PreparedStatement getpw = conn.prepareStatement("SELECT * FROM Users WHERE user_name=?");
-            getpw.setString(1,username);
-            ResultSet rs = getpw.executeQuery();
-
-            while(rs.next()) {
-                pw = rs.getString("password");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return pw;
-    }
-*/
     public User getUser(String username) {
         User toReturn = null;
         try {
