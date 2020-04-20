@@ -16,7 +16,7 @@ public class Mysqlconn {
     public Mysqlconn() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://192.168.1.9:3306/projekt", "projekt", "projekt123");
+            conn = DriverManager.getConnection("jdbc:mysql://gaborka98.mooo.com:3306/projekt", "projekt", "projekt123");
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ public class AktualisEszkozok extends javax.swing.JFrame {
     private JTable table;
     private JButton visszaButton;
     private JPanel akt;
+    private JButton leadButton;
 
     public AktualisEszkozok() {
         setLocationRelativeTo(null);
