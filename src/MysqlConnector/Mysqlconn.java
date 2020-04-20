@@ -110,6 +110,7 @@ public class Mysqlconn {
 
     public HashMap<Device, String[]> getHistoryDevices(User loggedINUser) {
         HashMap<Device, String[]> history = new HashMap<>();
+
         try {
             PreparedStatement getHistory = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date <= CURRENT_DATE()");
             getHistory.setInt(1, loggedINUser.getId());

@@ -5,6 +5,7 @@ import myClass.Device;
 import myClass.User;
 
 import javax.swing.*;
+
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,12 +41,14 @@ public class history extends javax.swing.JFrame {
         });
 
         updateList();
+
         visszaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
+
     }
 
     private void updateList() {

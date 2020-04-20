@@ -13,6 +13,40 @@
     </clientProperties>
     <border type="none"/>
     <children>
+
+      <component id="bfdd" class="javax.swing.JButton" binding="visszaButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="30" bottom="20" right="0" weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-13746290"/>
+          <enabled value="true"/>
+          <font name="Century" size="14" style="0"/>
+          <foreground color="-3355444"/>
+          <hideActionText value="false"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="4"/>
+          <icon value="Icons/gray.png"/>
+          <text value="Vissza"/>
+        </properties>
+      </component>
+      <component id="d0d2d" class="javax.swing.JTable" binding="Nev">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
+          <gridbag top="0" left="30" bottom="0" right="30" weightx="1.0" weighty="1.0"/>
+        </constraints>
+        <properties>
+          <background color="-2894893"/>
+          <fillsViewportHeight value="false"/>
+          <intercellSpacing width="0" height="0"/>
+          <preferredScrollableViewportSize width="450" height="400"/>
+          <showHorizontalLines value="true"/>
+          <toolTipText value=""/>
+        </properties>
+      </component>
       <component id="ff351" class="javax.swing.JLabel">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
