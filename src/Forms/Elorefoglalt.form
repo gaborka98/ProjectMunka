@@ -61,7 +61,8 @@
           <foreground color="-3355444"/>
           <hideActionText value="false"/>
           <horizontalAlignment value="0"/>
-          <horizontalTextPosition value="0"/>
+          <horizontalTextPosition value="4"/>
+          <icon value="Icons/gray.png"/>
           <text value="Vissza"/>
         </properties>
       </component>

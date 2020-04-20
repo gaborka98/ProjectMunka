@@ -31,6 +31,7 @@
           <background color="-13746290"/>
           <font size="16"/>
           <foreground color="-3355444"/>
+          <icon value="Icons/gray_history.png"/>
           <text value="Előzmények"/>
         </properties>
       </component>
@@ -47,6 +48,7 @@
           <background color="-13746290"/>
           <font size="16"/>
           <foreground color="-3355444"/>
+          <icon value="Icons/gray_foward_good.png"/>
           <text value="Előre lefoglalt eszközök"/>
         </properties>
       </component>
@@ -58,6 +60,7 @@
           <background color="-13746290"/>
           <font size="16"/>
           <foreground color="-3355444"/>
+          <icon value="Icons/gray_recently.png"/>
           <text value="Aktuálisan lefoglalt eszközök"/>
         </properties>
       </component>
@@ -89,6 +92,7 @@
           <background color="-13746290"/>
           <font name="Century" size="14" style="0"/>
           <foreground color="-3355444"/>
+          <icon value="Icons/gray.png"/>
           <text value="Vissza"/>
         </properties>
       </component>
