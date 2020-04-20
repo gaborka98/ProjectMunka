@@ -21,11 +21,9 @@ public class Mysqlconn {
         }
     }
 
-    public boolean lefoglal(Device device, User user) {
+    public boolean lefoglal(Device device, User user, Calendar dateFrom, Calendar dateTo) {
         int action = -2;
         try {
-            Calendar cal = Calendar.getInstance();
-            // Date rentDate = new Date();
             PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=? WHERE device_id=?");
             lefoglal.setBoolean(1, true);
             lefoglal.setInt(2, device.getIndex());
@@ -33,10 +31,16 @@ public class Mysqlconn {
             PreparedStatement history = conn.prepareStatement("INSERT INTO History (user_id, device_id, from_date, to_date) VALUES (?,?,?,?)");
             history.setInt(1, user.getId());
             history.setInt(2, device.getIndex());
-            history.setDate(3,new java.sql.Date(cal.getTimeInMillis()));
+            history.setDate(3,new java.sql.Date(dateFrom.getTimeInMillis()));
             // add to date automaticalli
-            cal.add(Calendar.DATE, device.getMaxRent());
-            history.setDate(4, new java.sql.Date(cal.getTimeInMillis()));
+            if (dateTo == null) {
+                dateFrom.add(Calendar.DATE, device.getMaxRent());
+                history.setDate(4, new java.sql.Date(dateFrom.getTimeInMillis()));
+            } else {
+                history.setDate(4, new java.sql.Date(dateTo.getTimeInMillis()));
+            }
+
+
 
             action = lefoglal.executeUpdate() + history.executeUpdate();
 

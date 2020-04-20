@@ -23,7 +23,11 @@ public class mainMenu extends javax.swing.JFrame {
         eszközökListázásaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new List(loginUser).setVisible(true);
+                if (loginUser.getRank().equalsIgnoreCase("vezeto")) {
+                    new vezetoieszkozlista(loginUser).setVisible(true);
+                } else {
+                    new List(loginUser).setVisible(true);
+                }
                 dispose();
             }
         });

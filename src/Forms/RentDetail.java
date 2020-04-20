@@ -36,13 +36,9 @@ public class RentDetail extends JFrame {
         lefoglalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Input ellenőrzés dátumokra
 
 
-                assert selectedDevice != null;
-                if (conn.lefoglal(selectedDevice, loginUser)){
-                    JOptionPane.showMessageDialog(null, "Lefoglalás sikeresen megtörtént!");
-                }
+
                 dispose();
             }
         });
