@@ -3,9 +3,11 @@ package MysqlConnector;
 import myClass.Device;
 import myClass.User;
 
+import java.security.KeyPair;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 
 public class Mysqlconn {
@@ -30,7 +32,7 @@ public class Mysqlconn {
             lefoglal.setBoolean(1, true);
             lefoglal.setInt(2, device.getIndex());
 
-            PreparedStatement history = conn.prepareStatement("INSERT INTO History (user_id, device_id, from_date, to_date) VALUES (?,?,?,?)");
+            PreparedStatement history = conn.prepareStatement("INSERT INTO Rent_list (user_id, device_id, from_date, to_date) VALUES (?,?,?,?)");
             history.setInt(1, user.getId());
             history.setInt(2, device.getIndex());
             history.setDate(3,new java.sql.Date(cal.getTimeInMillis()));
@@ -57,7 +59,7 @@ public class Mysqlconn {
             lefoglal.setInt(2,device.getIndex());
 
             Calendar cal = Calendar.getInstance();
-            PreparedStatement history = conn.prepareStatement("UPDATE History SET to_date=? WHERE device_id=? AND user_id=?");
+            PreparedStatement history = conn.prepareStatement("UPDATE Rent_list SET to_date=? WHERE device_id=? AND user_id=?");
             history.setDate(1, new java.sql.Date(cal.getTimeInMillis()));
             history.setInt(2, device.getIndex());
             history.setInt(3, user.getId());
@@ -104,5 +106,25 @@ public class Mysqlconn {
             e.printStackTrace();
         }
         return toReturn;
+    }
+
+    public HashMap<Device, String[]> getHistoryDevices(User loggedINUser) {
+        HashMap<Device, String[]> history = new HashMap<>();
+
+        try {
+            PreparedStatement getHistory = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date <= CURRENT_DATE()");
+            getHistory.setInt(1, loggedINUser.getId());
+            ResultSet rs = getHistory.executeQuery();
+
+            while(rs.next()) {
+                String[] temp = {rs.getString("from_date"), rs.getString("to_date")};
+                history.put(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"), rs.getInt("max_days")), temp);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return history;
     }
 }

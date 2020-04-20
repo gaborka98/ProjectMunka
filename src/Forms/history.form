@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Forms.history">
-  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridBagLayout">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
       <xy x="120" y="81" width="591" height="496"/>
     </constraints>
@@ -10,26 +11,9 @@
     </properties>
     <border type="none"/>
     <children>
-      <component id="35119" class="javax.swing.JTable" binding="Nev">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-          <gridbag top="0" left="30" bottom="0" right="30" weightx="1.0" weighty="1.0"/>
-        </constraints>
-        <properties>
-          <background color="-2894893"/>
-          <fillsViewportHeight value="false"/>
-          <intercellSpacing width="0" height="0"/>
-          <preferredScrollableViewportSize width="450" height="400"/>
-          <showHorizontalLines value="true"/>
-          <toolTipText value=""/>
-        </properties>
-      </component>
       <component id="e5e16" class="javax.swing.JLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="10" left="0" bottom="20" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
           <background color="-12828863"/>
@@ -41,7 +25,6 @@
       <component id="bff3e" class="javax.swing.JLabel">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="30" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
           <enabled value="true"/>
@@ -50,10 +33,29 @@
           <text value="Előzmények"/>
         </properties>
       </component>
+      <scrollpane id="fb509">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="35119" class="javax.swing.JTable" binding="table">
+            <constraints/>
+            <properties>
+              <background color="-2894893"/>
+              <fillsViewportHeight value="false"/>
+              <intercellSpacing width="0" height="0"/>
+              <preferredScrollableViewportSize width="450" height="400"/>
+              <showHorizontalLines value="true"/>
+              <toolTipText value=""/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
       <component id="ca98c" class="javax.swing.JButton" binding="visszaButton" default-binding="true">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="30" bottom="20" right="0" weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
           <background color="-13746290"/>

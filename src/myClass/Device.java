@@ -6,7 +6,6 @@ public class Device {
     private String nev;
     private int maxRent;
 
-
     public Device(int index, String name, boolean foglalt, int maxRent) {
         this.foglalt = foglalt;
         this.nev = name;
