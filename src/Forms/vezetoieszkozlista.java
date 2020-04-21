@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,9 +42,9 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
 
         setLocationRelativeTo(null);
         setContentPane(bossDevicesList);
-        setTitle("Főmenü");
+        setTitle("Eszkozok listazasa, Jog: " + loggedInUser.getRank());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400,250);
+        setSize(600,400);
         setVisible(false);
 
         visszaButton.addActionListener(new ActionListener() {
@@ -80,6 +82,25 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
 
                 new RentDetail(rented, loggedInUser).setVisible(true);
 
+                updateList();
+            }
+        });
+        visszaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new mainMenu(loggedInUser).setVisible(true);
+                dispose();
+            }
+        });
+        frissítésButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateList();
+            }
+        });
+        színesMódCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
                 updateList();
             }
         });

@@ -8,7 +8,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 
 public class RentDetail extends JFrame {
@@ -36,8 +41,52 @@ public class RentDetail extends JFrame {
         lefoglalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Date startDate = new Date();
+                Date endDate = new Date();
+                if (!fromDate.getText().isEmpty()) {
+                    try {
+                        startDate = format.parse(fromDate.getText());
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Kezdo datumot kotelezo megadni!");
+                    return;
+                }
 
+                if (toDate.getText().isEmpty()) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(startDate);
+                    cal.add(Calendar.DAY_OF_MONTH,selectedDevice.getMaxRent());
+                    endDate = cal.getTime();
+                } else {
+                    try {
+                        endDate = format.parse(toDate.getText());
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                }
 
+                LocalDate FromDateLocal, ToDateLocal;
+                FromDateLocal = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                ToDateLocal = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                long daysBetween = ChronoUnit.DAYS.between(FromDateLocal, ToDateLocal);
+
+                if (daysBetween > selectedDevice.getMaxRent()) {
+                    JOptionPane.showMessageDialog(null, "Ennyi napra nem lehet lefoglalni\nMax nap amire lefoglalhatod ezt az eszkozt: " + selectedDevice.getMaxRent());
+                    return;
+                }
+
+                Calendar afterOneYear = Calendar.getInstance();
+                afterOneYear.setTime(today);
+                afterOneYear.add(Calendar.YEAR,1);
+
+                if (afterOneYear.getTime().before(startDate)) {
+                    JOptionPane.showMessageDialog(null, "Nem foglalhatsz le egy evre elore!");
+                    return;
+                }
+
+                conn.lefoglal(selectedDevice, loginUser, startDate, endDate);
 
                 dispose();
             }

@@ -16,14 +16,14 @@ public class Mysqlconn {
     public Mysqlconn() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://gaborka98.mooo.com:3306/projekt", "projekt", "projekt123");
+            conn = DriverManager.getConnection("jdbc:mysql://192.168.1.9:3306/projekt", "projekt", "projekt123");
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean lefoglal(Device device, User user, Calendar dateFrom, Calendar dateTo) {
+    public boolean lefoglal(Device device, User user, java.util.Date dateFrom, java.util.Date dateTo) {
         int action = -2;
         try {
             PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=? WHERE device_id=?");
@@ -33,16 +33,8 @@ public class Mysqlconn {
             PreparedStatement history = conn.prepareStatement("INSERT INTO Rent_list (user_id, device_id, from_date, to_date) VALUES (?,?,?,?)");
             history.setInt(1, user.getId());
             history.setInt(2, device.getIndex());
-            history.setDate(3,new java.sql.Date(dateFrom.getTimeInMillis()));
-            // add to date automaticalli
-            if (dateTo == null) {
-                dateFrom.add(Calendar.DATE, device.getMaxRent());
-                history.setDate(4, new java.sql.Date(dateFrom.getTimeInMillis()));
-            } else {
-                history.setDate(4, new java.sql.Date(dateTo.getTimeInMillis()));
-            }
-
-
+            history.setDate(3,new java.sql.Date(dateFrom.getTime()));
+            history.setDate(4, new java.sql.Date(dateTo.getTime()));
 
             action = lefoglal.executeUpdate() + history.executeUpdate();
 

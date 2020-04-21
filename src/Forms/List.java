@@ -43,10 +43,10 @@ public class List extends JFrame{
         updateList();
 
         setContentPane(panel1);
-        setTitle("List devices");
-        setSize(600,300);
+        setTitle("Eszkozok listazasa, Jog:" + loginUser.getRank());
+        setSize(600,400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(false);
 
         lefoglalButton.addActionListener(new ActionListener() {
