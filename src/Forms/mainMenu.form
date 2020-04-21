@@ -29,6 +29,7 @@
           <background color="-13746290"/>
           <font size="16"/>
           <foreground color="-3355444"/>
+          <icon value="Icons/grey_profile.png"/>
           <text value="Profil"/>
         </properties>
       </component>
@@ -40,6 +41,7 @@
           <background color="-13746290"/>
           <font size="16"/>
           <foreground color="-3355444"/>
+          <icon value="Icons/gray_means_good.png"/>
           <text value="Eszközök listázása"/>
         </properties>
       </component>
@@ -71,6 +73,7 @@
           <background color="-13746290"/>
           <font name="Century" size="14" style="2"/>
           <foreground color="-3355444"/>
+          <icon value="Icons/gray_logout.png"/>
           <text value="Kijelentkezés"/>
         </properties>
       </component>

@@ -93,6 +93,8 @@
         <properties>
           <background color="-13746290"/>
           <font name="Century" size="14" style="0"/>
+          <foreground color="-3488308"/>
+          <icon value="Icons/gray.png"/>
           <text value="Vissza"/>
         </properties>
       </component>

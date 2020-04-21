@@ -61,14 +61,15 @@
           <foreground color="-3355444"/>
           <hideActionText value="false"/>
           <horizontalAlignment value="0"/>
-          <horizontalTextPosition value="0"/>
+          <horizontalTextPosition value="4"/>
+          <icon value="Icons/gray.png"/>
           <text value="Vissza"/>
         </properties>
       </component>
       <component id="f7f6d" class="javax.swing.JButton">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="0" bottom="0" right="30" weightx="1.0" weighty="0.0"/>
+          <gridbag top="0" left="0" bottom="0" right="30" weightx="0.0" weighty="1.0"/>
         </constraints>
         <properties>
           <text value="Visszamond"/>
