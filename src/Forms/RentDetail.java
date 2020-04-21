@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,6 +25,8 @@ public class RentDetail extends JFrame {
     private JButton mégseButton;
 
     private Mysqlconn conn = new Mysqlconn();
+
+    public Date FromDateToLead = new Date();
 
 
     public RentDetail(Device selectedDevice, User loginUser) {
@@ -86,9 +89,14 @@ public class RentDetail extends JFrame {
                     return;
                 }
 
-                conn.lefoglal(selectedDevice, loginUser, startDate, endDate);
+                if (!checkForwardRentIsFree(selectedDevice, startDate, endDate)) {
+                    JOptionPane.showMessageDialog(null, "A kivalasztott intervallumon az eszkoz mar foglalt.");
+                    return;
+                }
 
-                dispose();
+                conn.lefoglal(selectedDevice, loginUser, startDate, endDate);
+                FromDateToLead = startDate;
+                setVisible(false);
             }
         });
         mégseButton.addActionListener(new ActionListener() {
@@ -97,5 +105,20 @@ public class RentDetail extends JFrame {
                 dispose();
             }
         });
+    }
+
+    public boolean checkForwardRentIsFree(Device device, Date fromDate, Date toDate) {
+        ArrayList<Date[]> forwarding = conn.getFromToDate(device);
+
+        for ( Date[] fromto : forwarding) {
+            if (fromto[0].before(fromDate) && fromDate.before(fromto[1])){
+                return false;
+            }
+            if (fromto[0].before(toDate) && toDate.before(fromto[1])) {
+                return false;
+            }
+            if (fromDate.equals(fromto[0]) || fromDate.equals(fromto[1]) || toDate.equals(fromto[0]) || toDate.equals(fromto[1])) return false;
+        }
+        return true;
     }
 }

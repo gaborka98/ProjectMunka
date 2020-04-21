@@ -26,9 +26,10 @@ public class Mysqlconn {
     public boolean lefoglal(Device device, User user, java.util.Date dateFrom, java.util.Date dateTo) {
         int action = -2;
         try {
-            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=? WHERE device_id=?");
+            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=?, user_id=? WHERE device_id=?");
             lefoglal.setBoolean(1, true);
-            lefoglal.setInt(2, device.getIndex());
+            lefoglal.setInt(2, user.getId());
+            lefoglal.setInt(3, device.getIndex());
 
             PreparedStatement history = conn.prepareStatement("INSERT INTO Rent_list (user_id, device_id, from_date, to_date) VALUES (?,?,?,?)");
             history.setInt(1, user.getId());
@@ -47,18 +48,60 @@ public class Mysqlconn {
         return (action > 0);
     }
 
-    public boolean lead(Device device, User user) {
+    public java.util.Date getDeviceToDate(User user, Device Device){
+        java.util.Date toReturn = new java.util.Date();
+        try{
+            PreparedStatement dateto = conn.prepareStatement("SELECT to_date FROM Rent_list WHERE device_id=? AND user_id=?");
+            dateto.setInt(1, user.getId());
+            dateto.setInt(2, Device.getIndex());
+            ResultSet rs = dateto.executeQuery();
+
+            while(rs.next()) {
+                toReturn.setTime(rs.getDate("to_date").getTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return toReturn;
+    }
+
+    public ArrayList<java.util.Date[]> getFromToDate(Device device) {
+        ArrayList<java.util.Date[]> fromTo = new ArrayList<>();
+        try{
+            PreparedStatement dateto = conn.prepareStatement("SELECT from_date, to_date FROM Rent_list WHERE device_id=?");
+            dateto.setInt(1, device.getIndex());
+            ResultSet rs = dateto.executeQuery();
+
+            while(rs.next()) {
+                java.util.Date[] tmp = new java.util.Date[2];
+                tmp[0] = new java.util.Date(rs.getDate("from_date").getTime());
+                tmp[1] = new java.util.Date(rs.getDate("to_date").getTime());
+                fromTo.add(tmp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return fromTo;
+    }
+
+    public boolean lead(Device device, User user, java.util.Date from) {
         int action = -2;
         try {
             PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=? WHERE device_id=?");
             lefoglal.setBoolean(1, false);
             lefoglal.setInt(2,device.getIndex());
 
+            PreparedStatement getfromdate = conn.prepareStatement("SELECT id FROM Rent_list WHERE ");
+            lefoglal.setBoolean(1, false);
+            lefoglal.setInt(2,device.getIndex());
+
+
             Calendar cal = Calendar.getInstance();
-            PreparedStatement history = conn.prepareStatement("UPDATE Rent_list SET to_date=? WHERE device_id=? AND user_id=?");
+            PreparedStatement history = conn.prepareStatement("UPDATE Rent_list SET to_date=? WHERE device_id=? AND user_id=? AND from_date=?");
             history.setDate(1, new java.sql.Date(cal.getTimeInMillis()));
             history.setInt(2, device.getIndex());
             history.setInt(3, user.getId());
+            history.setDate(4, new Date(from.getTime()));
 
             action = lefoglal.executeUpdate() + history.executeUpdate();
 
@@ -80,7 +123,7 @@ public class Mysqlconn {
             ResultSet rs = getAll.executeQuery();
 
             while (rs.next()) {
-                devices.add(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"),rs.getInt("max_days")));
+                devices.add(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"),rs.getInt("max_days"), rs.getInt("user_id")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,7 +157,7 @@ public class Mysqlconn {
 
             while(rs.next()) {
                 String[] temp = {rs.getString("from_date"), rs.getString("to_date")};
-                history.put(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"), rs.getInt("max_days")), temp);
+                history.put(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"), rs.getInt("max_days"), rs.getInt("user_id")), temp);
             }
 
         } catch (SQLException e) {

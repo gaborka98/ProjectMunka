@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class vezetoieszkozlista extends javax.swing.JFrame {
     private Mysqlconn conn = new Mysqlconn();
@@ -29,6 +30,11 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
     private JButton visszaButton;
     private JCheckBox színesMódCheckBox;
     private JPanel bossDevicesList;
+    private JButton newDevice;
+    private JButton editOrDelete;
+
+
+    private Date fromDate = new Date();
 
     public vezetoieszkozlista(User loggedInUser) {
         table1.setModel(new DefaultTableModel(columns,0){
@@ -62,12 +68,19 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
 
                 Device rented = findById((int) table1.getValueAt(row, column));
 
-                assert rented != null;
-                if (conn.lead(rented, loggedInUser)){
-                    JOptionPane.showMessageDialog(null, "Leadás sikeresen megtörtént!");
+                if (rented.getRenter() == loggedInUser.getId()) {
+                    assert rented != null;
+                    if (conn.lead(rented, loggedInUser, fromDate)){
+                        JOptionPane.showMessageDialog(null, "Leadás sikeresen megtörtént!");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Nem adhatod le, mert nem te foglaltad le az eszkozt!");
+                    return;
                 }
 
                 updateList();
+                allDevice = conn.getAllDevice();
 
             }
         });
@@ -80,9 +93,13 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
 
                 Device rented = findById((int) table1.getValueAt(row, column));
 
-                new RentDetail(rented, loggedInUser).setVisible(true);
+                RentDetail asd = new RentDetail(rented, loggedInUser);
+                asd.setVisible(true);
+
+                fromDate = asd.FromDateToLead;
 
                 updateList();
+                allDevice = conn.getAllDevice();
             }
         });
         visszaButton.addActionListener(new ActionListener() {
@@ -102,6 +119,18 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 updateList();
+            }
+        });
+        newDevice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        editOrDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
             }
         });
     }

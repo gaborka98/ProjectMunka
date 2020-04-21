@@ -5,12 +5,14 @@ public class Device {
     private boolean foglalt;
     private String nev;
     private int maxRent;
+    private int renter;
 
-    public Device(int index, String name, boolean foglalt, int maxRent) {
+    public Device(int index, String name, boolean foglalt, int maxRent, int renter) {
         this.foglalt = foglalt;
         this.nev = name;
         this.index = index;
         this.maxRent = maxRent;
+        this.renter = renter;
     }
 
     public int getMaxRent() {
@@ -27,5 +29,9 @@ public class Device {
 
     public int getIndex() {
         return index;
+    }
+
+    public int getRenter() {
+        return renter;
     }
 }
