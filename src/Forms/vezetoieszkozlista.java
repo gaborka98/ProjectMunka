@@ -130,7 +130,7 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
         editOrDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
             }
         });
     }
