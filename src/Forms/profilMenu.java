@@ -32,7 +32,7 @@ public class profilMenu extends javax.swing.JFrame {
         aktuálisanLefoglaltEszközökButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AktualisEszkozok().setVisible(true);
+                new AktualisEszkozok(loginUser).setVisible(true);
             }
         });
         előzményekButton.addActionListener(new ActionListener() {

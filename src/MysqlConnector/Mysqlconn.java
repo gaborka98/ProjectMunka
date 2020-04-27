@@ -16,7 +16,7 @@ public class Mysqlconn {
     public Mysqlconn() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://192.168.1.9:3306/projekt", "projekt", "projekt123");
+            conn = DriverManager.getConnection("jdbc:mysql://gaborka98.mooo.com:3306/projekt", "projekt", "projekt123");
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -151,7 +151,7 @@ public class Mysqlconn {
         HashMap<Device, String[]> history = new HashMap<>();
 
         try {
-            PreparedStatement getHistory = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date <= CURRENT_DATE()");
+            PreparedStatement getHistory = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date <= CURRENT_DATE() ");
             getHistory.setInt(1, loggedINUser.getId());
             ResultSet rs = getHistory.executeQuery();
 
@@ -165,5 +165,46 @@ public class Mysqlconn {
         }
 
         return history;
+    }
+
+
+    public HashMap<Device, String[]> getActuallyTakenDevices(User loggedINUser) {
+        HashMap<Device, String[]> actuallyTaken = new HashMap<>();
+
+        try {
+            PreparedStatement getActuallyTakenDevices = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date >= CURRENT_DATE() AND Rent_list.to_date <= CURRENT_DATE()");
+            getActuallyTakenDevices.setInt(1, loggedINUser.getId());
+            ResultSet rs = getActuallyTakenDevices.executeQuery();
+
+            while(rs.next()) {
+                String[] temp = {rs.getString("from_date"), rs.getString("to_date")};
+                actuallyTaken.put(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"), rs.getInt("max_days"), rs.getInt("user_id")), temp);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return actuallyTaken;
+    }
+
+    public HashMap<Device, String[]> getFutureRents(User loggedINUser) {
+        HashMap<Device, String[]> futureRents = new HashMap<>();
+
+        try {
+            PreparedStatement getFutureTakenDevices = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date > CURRENT_DATE() ");
+            getFutureTakenDevices.setInt(1, loggedINUser.getId());
+            ResultSet rs = getFutureTakenDevices.executeQuery();
+
+            while(rs.next()) {
+                String[] temp = {rs.getString("from_date"), rs.getString("to_date")};
+                futureRents.put(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"), rs.getInt("max_days"), rs.getInt("user_id")), temp);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return futureRents;
     }
 }
