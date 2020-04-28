@@ -5,6 +5,8 @@ import myClass.User;
 
 import java.security.KeyPair;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -186,6 +188,30 @@ public class Mysqlconn {
         }
 
         return actuallyTaken;
+    }
+
+    public boolean visszamond(Device device, User loginUser, String fromDate, String toDate) {
+        int toReturn = -1;
+
+        try {
+            SimpleDateFormat sdp = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date fromtemp = sdp.parse(fromDate);
+            java.util.Date totemp = sdp.parse(toDate);
+
+            PreparedStatement visszamond = conn.prepareStatement("DELETE FROM Rent_list WHERE device_id=? AND user_id=? AND from_date=? AND to_date=?");
+            visszamond.setInt(1,device.getIndex());
+            visszamond.setInt(2,loginUser.getId());
+            visszamond.setDate(3, new Date(fromtemp.getTime()));
+            visszamond.setDate(4, new Date(totemp.getTime()));
+
+            toReturn = visszamond.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return toReturn == 1 ? true : false;
     }
 
     public HashMap<Device, String[]> getFutureRents(User loggedINUser) {

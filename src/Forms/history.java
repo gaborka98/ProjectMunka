@@ -9,7 +9,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class history extends javax.swing.JFrame {
@@ -59,6 +62,27 @@ public class history extends javax.swing.JFrame {
             for (Device iter : historyDevice.keySet()) {
                 model.addRow(new Object[]{iter.getIndex(), iter.getNev(), historyDevice.get(iter)[0], historyDevice.get(iter)[1]});
             }
+        }
+    }
+
+    private class dateLabelFromatter extends JFormattedTextField.AbstractFormatter {
+
+        private String datePattern = "yyyy-MM-dd";
+        private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+
+        @Override
+        public Object stringToValue(String text) throws ParseException {
+            return dateFormatter.parseObject(text);
+        }
+
+        @Override
+        public String valueToString(Object value) throws ParseException {
+            if (value != null) {
+                Calendar cal = (Calendar) value;
+                return dateFormatter.format(cal.getTime());
+            }
+
+            return "";
         }
     }
 }
