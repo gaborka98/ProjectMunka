@@ -81,8 +81,8 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
                     return;
                 }
 
-                updateList();
                 allDevice = conn.getAllDevice();
+                updateList();
 
             }
         });
@@ -202,6 +202,7 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
 
         table1.setModel(model);
     }
+
     private class dateLabelFromatter extends JFormattedTextField.AbstractFormatter {
 
         private String datePattern = "yyyy-MM-dd";

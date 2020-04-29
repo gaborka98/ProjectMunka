@@ -5,6 +5,8 @@ import myClass.User;
 
 import java.security.KeyPair;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -118,14 +120,9 @@ public class Mysqlconn {
             lefoglal.setBoolean(1, false);
             lefoglal.setInt(2,device.getIndex());
 
-            PreparedStatement getfromdate = conn.prepareStatement("SELECT id FROM Rent_list WHERE ");
-            lefoglal.setBoolean(1, false);
-            lefoglal.setInt(2,device.getIndex());
-
-
             Calendar cal = Calendar.getInstance();
             PreparedStatement history = conn.prepareStatement("UPDATE Rent_list SET to_date=? WHERE device_id=? AND user_id=? AND from_date=?");
-            history.setDate(1, new java.sql.Date(cal.getTimeInMillis()));
+            history.setDate(1, new Date(cal.getTimeInMillis()));
             history.setInt(2, device.getIndex());
             history.setInt(3, user.getId());
             history.setDate(4, new Date(from.getTime()));
@@ -178,7 +175,7 @@ public class Mysqlconn {
         HashMap<Device, String[]> history = new HashMap<>();
 
         try {
-            PreparedStatement getHistory = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date <= CURRENT_DATE()");
+            PreparedStatement getHistory = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date, Rent_list.user_id FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.to_date <= CURRENT_DATE()");
             getHistory.setInt(1, loggedINUser.getId());
             ResultSet rs = getHistory.executeQuery();
 
@@ -192,5 +189,70 @@ public class Mysqlconn {
         }
 
         return history;
+    }
+
+
+    public HashMap<Device, String[]> getActuallyTakenDevices(User loggedINUser) {
+        HashMap<Device, String[]> actuallyTaken = new HashMap<>();
+
+        try {
+            PreparedStatement getActuallyTakenDevices = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date, Rent_list.user_id FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date <= CURRENT_DATE() AND Rent_list.to_date > CURRENT_DATE()");
+            getActuallyTakenDevices.setInt(1, loggedINUser.getId());
+            ResultSet rs = getActuallyTakenDevices.executeQuery();
+
+            while(rs.next()) {
+                String[] temp = {rs.getString("from_date"), rs.getString("to_date")};
+                actuallyTaken.put(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"), rs.getInt("max_days"), rs.getInt("user_id")), temp);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return actuallyTaken;
+    }
+
+    public boolean visszamond(Device device, User loginUser, String fromDate, String toDate) {
+        int toReturn = -1;
+
+        try {
+            SimpleDateFormat sdp = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date fromtemp = sdp.parse(fromDate);
+            java.util.Date totemp = sdp.parse(toDate);
+
+            PreparedStatement visszamond = conn.prepareStatement("DELETE FROM Rent_list WHERE device_id=? AND user_id=? AND from_date=? AND to_date=?");
+            visszamond.setInt(1,device.getIndex());
+            visszamond.setInt(2,loginUser.getId());
+            visszamond.setDate(3, new Date(fromtemp.getTime()));
+            visszamond.setDate(4, new Date(totemp.getTime()));
+
+            toReturn = visszamond.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return toReturn == 1 ? true : false;
+    }
+
+    public HashMap<Device, String[]> getFutureRents(User loggedINUser) {
+        HashMap<Device, String[]> futureRents = new HashMap<>();
+
+        try {
+            PreparedStatement getFutureTakenDevices = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date, Rent_list.user_id FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date > CURRENT_DATE() ");
+            getFutureTakenDevices.setInt(1, loggedINUser.getId());
+            ResultSet rs = getFutureTakenDevices.executeQuery();
+
+            while(rs.next()) {
+                String[] temp = {rs.getString("from_date"), rs.getString("to_date")};
+                futureRents.put(new Device(rs.getInt("device_id"), rs.getString("name"), rs.getBoolean("rented"), rs.getInt("max_days"), rs.getInt("user_id")), temp);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return futureRents;
     }
 }

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Forms.AktualisEszkozok">
-  <grid id="27dc6" binding="akt" layout-manager="GridBagLayout">
+  <grid id="27dc6" binding="akt" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="20" y="20" width="593" height="466"/>
+      <xy x="20" y="20" width="638" height="466"/>
     </constraints>
     <properties>
       <background color="-12560183"/>
@@ -12,10 +13,51 @@
     </clientProperties>
     <border type="none"/>
     <children>
+      <component id="ff351" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <enabled value="true"/>
+          <font name="Courier New" size="18" style="2"/>
+          <foreground color="-16777216"/>
+          <text value="Aktuálisan lefoglalt eszközök"/>
+        </properties>
+      </component>
+      <component id="9e58d" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16777216"/>
+          <font name="Century" size="24" style="3"/>
+          <foreground color="-16777216"/>
+          <text value="Eszköznyilvántartó rendszer"/>
+        </properties>
+      </component>
+      <scrollpane id="d6974">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="d0d2d" class="javax.swing.JTable" binding="table1">
+            <constraints/>
+            <properties>
+              <background color="-2894893"/>
+              <fillsViewportHeight value="false"/>
+              <intercellSpacing width="0" height="0"/>
+              <preferredScrollableViewportSize width="450" height="400"/>
+              <showHorizontalLines value="true"/>
+              <toolTipText value=""/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
       <component id="bfdd" class="javax.swing.JButton" binding="visszaButton" default-binding="true">
         <constraints>
-          <grid row="3" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="30" bottom="20" right="0" weightx="1.0" weighty="1.0"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-13746290"/>
@@ -29,55 +71,19 @@
           <text value="Vissza"/>
         </properties>
       </component>
-      <component id="d0d2d" class="javax.swing.JTable" binding="table">
-        <constraints>
-          <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-          <gridbag top="0" left="30" bottom="0" right="30" weightx="1.0" weighty="1.0"/>
-        </constraints>
-        <properties>
-          <background color="-2894893"/>
-          <fillsViewportHeight value="false"/>
-          <intercellSpacing width="0" height="0"/>
-          <preferredScrollableViewportSize width="450" height="400"/>
-          <showHorizontalLines value="true"/>
-          <toolTipText value=""/>
-        </properties>
-      </component>
-      <component id="ff351" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="30" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <enabled value="true"/>
-          <font name="Courier New" size="18" style="2"/>
-          <foreground color="-16777216"/>
-          <text value="Aktuálisan lefoglalt eszközök"/>
-        </properties>
-      </component>
-      <component id="9e58d" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="10" left="0" bottom="30" right="0" weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <background color="-16777216"/>
-          <font name="Century" size="24" style="3"/>
-          <foreground color="-16777216"/>
-          <text value="Eszköznyilvántartó rendszer"/>
-        </properties>
-      </component>
       <component id="65c8f" class="javax.swing.JButton" binding="leadButton" default-binding="true">
         <constraints>
-          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="0" bottom="0" right="30" weightx="0.0" weighty="0.0"/>
+          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Lead"/>
         </properties>
       </component>
+      <hspacer id="85da5">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
     </children>
   </grid>
 </form>
