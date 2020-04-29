@@ -28,7 +28,6 @@ public class mainMenu extends javax.swing.JFrame {
                 } else {
                     new List(loginUser).setVisible(true);
                 }
-                dispose();
             }
         });
         kijelentkezésButton.addActionListener(new ActionListener() {
@@ -42,7 +41,6 @@ public class mainMenu extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new profilMenu(loginUser).setVisible(true);
-                dispose();
             }
         });
     }

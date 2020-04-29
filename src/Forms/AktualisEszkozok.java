@@ -13,25 +13,37 @@ import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 public class AktualisEszkozok extends javax.swing.JFrame {
 
-    private JTable table;
+    private JTable table1;
     private JButton visszaButton;
     private JPanel akt;
     private JButton leadButton;
 
     private Mysqlconn con = new Mysqlconn();
-    private User user;
     private HashMap<Device, String[]> actuallyTakenDevices;
+    private String[] columns = { "ID", "Nev", "Tol", "Ig" };
+
+    private String fromDateString;
 
 
     public AktualisEszkozok(User loggedInUser) {
-        this.user = loggedInUser;
-        this.actuallyTakenDevices = con.getActuallyTakenDevices(user);
+        this.actuallyTakenDevices = con.getActuallyTakenDevices(loggedInUser);
+
+        table1.setModel(new DefaultTableModel(columns,0){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+
+        updateList();
 
 
         setLocationRelativeTo(null);
@@ -50,11 +62,54 @@ public class AktualisEszkozok extends javax.swing.JFrame {
             }
         });
 
+        leadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row, column;
+                row = table1.getSelectedRow();
+                column = 0;
+
+                Device rented = findById((int) table1.getValueAt(row, column));
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date fromDate = null;
+                try {
+                    fromDate = sdf.parse(fromDateString);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+
+                if (rented.getRenter() == loggedInUser.getId()) {
+                    assert rented != null;
+                    if (con.lead(rented, loggedInUser, fromDate)){
+                        JOptionPane.showMessageDialog(null, "Leadás sikeresen megtörtént!");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Nem adhatod le, mert nem te foglaltad le az eszkozt!");
+                    return;
+                }
+
+                actuallyTakenDevices = con.getActuallyTakenDevices(loggedInUser);
+                updateList();
+            }
+        });
+    }
+
+    private Device findById(int id) {
+        for(Device iter : actuallyTakenDevices.keySet()) {
+            if (id == iter.getIndex()) {
+                fromDateString = actuallyTakenDevices.get(iter)[1];
+                return iter;
+            }
+        }
+        return null;
     }
 
     private void updateList() {
         if (!actuallyTakenDevices.isEmpty()) {
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            DefaultTableModel model = (DefaultTableModel) table1.getModel();
             model.setRowCount(0);
 
             for (Device iter : actuallyTakenDevices.keySet()) {

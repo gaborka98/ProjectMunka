@@ -18,7 +18,7 @@ public class Mysqlconn {
     public Mysqlconn() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://gaborka98.mooo.com:3306/projekt", "projekt", "projekt123");
+            conn = DriverManager.getConnection("jdbc:mysql://192.168.1.9:3306/projekt", "projekt", "projekt123");
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -93,14 +93,9 @@ public class Mysqlconn {
             lefoglal.setBoolean(1, false);
             lefoglal.setInt(2,device.getIndex());
 
-            PreparedStatement getfromdate = conn.prepareStatement("SELECT id FROM Rent_list WHERE ");
-            lefoglal.setBoolean(1, false);
-            lefoglal.setInt(2,device.getIndex());
-
-
             Calendar cal = Calendar.getInstance();
             PreparedStatement history = conn.prepareStatement("UPDATE Rent_list SET to_date=? WHERE device_id=? AND user_id=? AND from_date=?");
-            history.setDate(1, new java.sql.Date(cal.getTimeInMillis()));
+            history.setDate(1, new Date(cal.getTimeInMillis()));
             history.setInt(2, device.getIndex());
             history.setInt(3, user.getId());
             history.setDate(4, new Date(from.getTime()));
@@ -153,7 +148,7 @@ public class Mysqlconn {
         HashMap<Device, String[]> history = new HashMap<>();
 
         try {
-            PreparedStatement getHistory = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date <= CURRENT_DATE() ");
+            PreparedStatement getHistory = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date, Rent_list.user_id FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.to_date <= CURRENT_DATE()");
             getHistory.setInt(1, loggedINUser.getId());
             ResultSet rs = getHistory.executeQuery();
 
@@ -174,7 +169,7 @@ public class Mysqlconn {
         HashMap<Device, String[]> actuallyTaken = new HashMap<>();
 
         try {
-            PreparedStatement getActuallyTakenDevices = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date >= CURRENT_DATE() AND Rent_list.to_date <= CURRENT_DATE()");
+            PreparedStatement getActuallyTakenDevices = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date, Rent_list.user_id FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date <= CURRENT_DATE() AND Rent_list.to_date > CURRENT_DATE()");
             getActuallyTakenDevices.setInt(1, loggedINUser.getId());
             ResultSet rs = getActuallyTakenDevices.executeQuery();
 
@@ -218,7 +213,7 @@ public class Mysqlconn {
         HashMap<Device, String[]> futureRents = new HashMap<>();
 
         try {
-            PreparedStatement getFutureTakenDevices = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date > CURRENT_DATE() ");
+            PreparedStatement getFutureTakenDevices = conn.prepareStatement("SELECT Devices.`name`,Devices.rented, Devices.max_days, Devices.device_id, Rent_list.from_date, Rent_list.to_date, Rent_list.user_id FROM Devices INNER JOIN Rent_list ON Devices.device_id = Rent_list.device_id WHERE Rent_list.user_id = ? AND Rent_list.from_date > CURRENT_DATE() ");
             getFutureTakenDevices.setInt(1, loggedINUser.getId());
             ResultSet rs = getFutureTakenDevices.executeQuery();
 

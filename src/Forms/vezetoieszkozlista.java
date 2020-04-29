@@ -79,8 +79,8 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
                     return;
                 }
 
-                updateList();
                 allDevice = conn.getAllDevice();
+                updateList();
 
             }
         });
