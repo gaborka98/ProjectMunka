@@ -16,11 +16,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class List extends JFrame{
     private Mysqlconn conn = new Mysqlconn();
     private ArrayList<Device> allDevice = conn.getAllDevice();
-    private User loginUser;
     String [] columns = {"ID", "Név", "Foglaltság"};
 
     private JPanel panel1;
@@ -31,6 +31,8 @@ public class List extends JFrame{
     private JCheckBox színesMódCheckBox;
     private JButton frissítésButton;
 
+    private Date fromDate = new Date();
+
     public List(User loggedIn) {
         table1.setModel(new DefaultTableModel(columns,0){
             @Override
@@ -38,15 +40,13 @@ public class List extends JFrame{
                 return false;
             }
         });
-
-        this.loginUser = loggedIn;
         updateList();
 
         setContentPane(panel1);
-        setTitle("List devices");
-        setSize(600,300);
+        setTitle("Eszkozok listazasa, Jog:" + loggedIn.getRank());
+        setSize(600,400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(false);
 
         lefoglalButton.addActionListener(new ActionListener() {
@@ -58,10 +58,13 @@ public class List extends JFrame{
 
                 Device rented = findById((int) table1.getValueAt(row, column));
 
-                new RentDetail(rented, loginUser).setVisible(true);
+                RentDetail asd = new RentDetail(rented, loggedIn);
+                asd.setVisible(true);
+
+                fromDate = asd.FromDateToLead;
 
                 updateList();
-
+                allDevice = conn.getAllDevice();
             }
         });
         leadButton.addActionListener(new ActionListener() {
@@ -73,19 +76,26 @@ public class List extends JFrame{
 
                 Device rented = findById((int) table1.getValueAt(row, column));
 
-                assert rented != null;
-                if (conn.lead(rented, loginUser)){
-                    JOptionPane.showMessageDialog(null, "Leadás sikeresen megtörtént!");
+                if (rented.getRenter() == loggedIn.getId()) {
+                    assert rented != null;
+                    if (conn.lead(rented, loggedIn, fromDate)){
+                        JOptionPane.showMessageDialog(null, "Leadás sikeresen megtörtént!");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Nem adhatod le, mert nem te foglaltad le az eszkozt!");
+                    return;
                 }
 
                 updateList();
+                allDevice = conn.getAllDevice();
 
             }
         });
         visszaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new mainMenu(loginUser).setVisible(true);
+                new mainMenu(loggedIn).setVisible(true);
                 dispose();
             }
         });

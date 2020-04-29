@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Forms.vezetoieszkozlista">
-  <grid id="27dc6" layout-manager="GridBagLayout">
+  <grid id="27dc6" binding="bossDevicesList" layout-manager="GridLayoutManager" row-count="9" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
       <xy x="20" y="20" width="625" height="488"/>
     </constraints>
@@ -14,7 +15,6 @@
           <grid row="2" column="0" row-span="5" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="600" height="300"/>
           </grid>
-          <gridbag top="20" left="20" bottom="0" right="20" weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -31,7 +31,6 @@
       <component id="8b961" class="javax.swing.JButton" binding="leadButton" default-binding="true">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag top="30" left="0" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
         </constraints>
         <properties>
           <text value="Lead"/>
@@ -40,7 +39,6 @@
       <component id="f3967" class="javax.swing.JButton" binding="lefoglalButton" default-binding="true">
         <constraints>
           <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="1.0"/>
         </constraints>
         <properties>
           <text value="Lefoglal"/>
@@ -49,7 +47,6 @@
       <component id="36acf" class="javax.swing.JButton" binding="frissítésButton" default-binding="true">
         <constraints>
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="1.0"/>
         </constraints>
         <properties>
           <text value="Frissítés"/>
@@ -58,16 +55,15 @@
       <component id="6e1bb" class="javax.swing.JCheckBox" binding="színesMódCheckBox" default-binding="true">
         <constraints>
           <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="1.0"/>
         </constraints>
         <properties>
+          <background color="-12560183"/>
           <text value="Színes mód"/>
         </properties>
       </component>
-      <component id="651d6" class="javax.swing.JButton" default-binding="true">
+      <component id="651d6" class="javax.swing.JButton" binding="editOrDelete">
         <constraints>
           <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="20" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
           <text value="Eszköz módosítása, törlése"/>
@@ -76,7 +72,6 @@
       <component id="9166c" class="javax.swing.JLabel">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="30" bottom="10" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
           <enabled value="true"/>
@@ -88,7 +83,6 @@
       <component id="1a70d" class="javax.swing.JButton" binding="visszaButton" default-binding="true">
         <constraints>
           <grid row="8" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="0" left="20" bottom="0" right="0" weightx="0.0" weighty="1.0"/>
         </constraints>
         <properties>
           <background color="-13746290"/>
@@ -98,10 +92,9 @@
           <text value="Vissza"/>
         </properties>
       </component>
-      <component id="57a29" class="javax.swing.JButton" default-binding="true">
+      <component id="57a29" class="javax.swing.JButton" binding="newDevice">
         <constraints>
           <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
           <horizontalTextPosition value="0"/>
@@ -111,7 +104,6 @@
       <component id="f5c1d" class="javax.swing.JLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag top="10" left="0" bottom="20" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
           <background color="-12828863"/>
