@@ -32,6 +32,8 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
     private JPanel bossDevicesList;
     private JButton newDevice;
     private JButton editOrDelete;
+    private JTextField maxDaysField;
+    private JTextField nameTextField;
 
 
     private Date fromDate = new Date();
@@ -124,13 +126,43 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
         newDevice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (nameTextField.getText().isEmpty() || maxDaysField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Megkell adni a nevet es hogy hany napra lehet max kolcsonozni!");
+                    return;
+                } else {
+                    int maxdays = -1;
+                    String name = nameTextField.getText();
 
+                    try {
+                        maxdays = Integer.parseInt(maxDaysField.getText());
+                    } catch (NumberFormatException error) {
+                        JOptionPane.showMessageDialog(null, "Max nap-hoz szamot kell megadnod!!!");
+                        return;
+                    }
+
+                    if (conn.eszkozHozzaadasa(name,maxdays)) {
+                        JOptionPane.showMessageDialog(null, "A hozzaadas sikeresen megtortent");
+                        updateList();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Valami Hiba tortent");
+                    }
+                }
             }
         });
         editOrDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int row, column;
+                row = table1.getSelectedRow();
+                column = 0;
 
+                Device rented = findById((int) table1.getValueAt(row, column));
+                if(conn.eszkozTorlese(rented)){
+                    JOptionPane.showMessageDialog(null, "A torles sikeresen megtortent");
+                    updateList();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Valami hiba lepett fel a torles soran!");
+                }
             }
         });
     }

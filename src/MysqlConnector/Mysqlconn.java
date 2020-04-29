@@ -84,6 +84,33 @@ public class Mysqlconn {
         return fromTo;
     }
 
+    public boolean eszkozTorlese(Device selected) {
+        int toReturn = -1;
+        try {
+            PreparedStatement delete = conn.prepareStatement("DELETE FROM Devices WHERE device_id=?");
+            delete.setInt(1,selected.getIndex());
+            toReturn = delete.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return toReturn == 1 ? true : false;
+    }
+
+    public boolean eszkozHozzaadasa(String pname, int maxDay) {
+        int toReturn = -1;
+        try {
+            PreparedStatement insert = conn.prepareStatement("INSERT INTO Devices (name, max_days) VALUES (?,?)");
+            insert.setString(1,pname);
+            insert.setInt(2,maxDay);
+            toReturn = insert.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return toReturn == 1 ? true : false;
+    }
+
     public boolean lead(Device device, User user, java.util.Date from) {
         int action = -2;
         try {
