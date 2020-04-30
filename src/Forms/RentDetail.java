@@ -111,13 +111,13 @@ public class RentDetail extends JFrame {
         ArrayList<Date[]> forwarding = conn.getFromToDate(device);
 
         for ( Date[] fromto : forwarding) {
-            if (fromto[0].before(fromDate) && fromDate.before(fromto[1])){
+            if (fromto[0].before(fromDate)  && fromDate.before(fromto[1])){
                 return false;
             }
             if (fromto[0].before(toDate) && toDate.before(fromto[1])) {
                 return false;
             }
-            if (fromDate.equals(fromto[0]) || fromDate.equals(fromto[1]) || toDate.equals(fromto[0]) || toDate.equals(fromto[1])) return false;
+            if (fromDate.equals(fromto[0]) || toDate.equals(fromto[0]) || toDate.equals(fromto[1])) return false;
         }
         return true;
     }

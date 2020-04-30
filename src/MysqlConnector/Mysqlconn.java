@@ -102,9 +102,9 @@ public class Mysqlconn {
     public boolean lead(Device device, User user, java.util.Date from) {
         int action = -2;
         try {
-            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=? user_id=? WHERE device_id=?");
+            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=?, user_id=? WHERE device_id=?");
             lefoglal.setBoolean(1, false);
-            lefoglal.setInt(2,-1);
+            lefoglal.setInt(2,0);
             lefoglal.setInt(3,device.getIndex());
 
             Calendar cal = Calendar.getInstance();

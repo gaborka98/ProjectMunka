@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class AktualisEszkozok extends javax.swing.JFrame {
 
@@ -91,6 +92,11 @@ public class AktualisEszkozok extends javax.swing.JFrame {
                 }
 
                 actuallyTakenDevices = con.getActuallyTakenDevices(loggedInUser);
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
                 updateList();
             }
         });
@@ -99,7 +105,7 @@ public class AktualisEszkozok extends javax.swing.JFrame {
     private Device findById(int id) {
         for(Device iter : actuallyTakenDevices.keySet()) {
             if (id == iter.getIndex()) {
-                fromDateString = actuallyTakenDevices.get(iter)[1];
+                fromDateString = actuallyTakenDevices.get(iter)[0];
                 System.out.println(fromDateString);
                 return iter;
             }
