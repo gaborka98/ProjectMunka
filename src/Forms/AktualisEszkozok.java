@@ -100,6 +100,7 @@ public class AktualisEszkozok extends javax.swing.JFrame {
         for(Device iter : actuallyTakenDevices.keySet()) {
             if (id == iter.getIndex()) {
                 fromDateString = actuallyTakenDevices.get(iter)[1];
+                System.out.println(fromDateString);
                 return iter;
             }
         }
@@ -111,7 +112,6 @@ public class AktualisEszkozok extends javax.swing.JFrame {
 
             DefaultTableModel model = (DefaultTableModel) table1.getModel();
             model.setRowCount(0);
-
             for (Device iter : actuallyTakenDevices.keySet()) {
                 model.addRow(new Object[]{iter.getIndex(), iter.getNev(), actuallyTakenDevices.get(iter)[0], actuallyTakenDevices.get(iter)[1]});
             }

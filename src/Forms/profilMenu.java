@@ -17,7 +17,7 @@ public class profilMenu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setContentPane(profilFrame);
         setTitle("Profilmenu");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400,300);
         setVisible(false);
 

@@ -3,13 +3,14 @@ package MysqlConnector;
 import myClass.Device;
 import myClass.User;
 
-import java.security.KeyPair;
+
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+
 
 
 public class Mysqlconn {
@@ -27,6 +28,7 @@ public class Mysqlconn {
 
     public boolean lefoglal(Device device, User user, java.util.Date dateFrom, java.util.Date dateTo) {
         int action = -2;
+        java.util.Date currentDate = new java.util.Date();
         try {
             PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=?, user_id=? WHERE device_id=?");
             lefoglal.setBoolean(1, true);
@@ -39,7 +41,8 @@ public class Mysqlconn {
             history.setDate(3,new java.sql.Date(dateFrom.getTime()));
             history.setDate(4, new java.sql.Date(dateTo.getTime()));
 
-            action = lefoglal.executeUpdate() + history.executeUpdate();
+            if (isSameDate(currentDate, dateFrom)) { action += lefoglal.executeUpdate(); }
+            action = history.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -48,23 +51,6 @@ public class Mysqlconn {
         }
 
         return (action > 0);
-    }
-
-    public java.util.Date getDeviceToDate(User user, Device Device){
-        java.util.Date toReturn = new java.util.Date();
-        try{
-            PreparedStatement dateto = conn.prepareStatement("SELECT to_date FROM Rent_list WHERE device_id=? AND user_id=?");
-            dateto.setInt(1, user.getId());
-            dateto.setInt(2, Device.getIndex());
-            ResultSet rs = dateto.executeQuery();
-
-            while(rs.next()) {
-                toReturn.setTime(rs.getDate("to_date").getTime());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return toReturn;
     }
 
     public ArrayList<java.util.Date[]> getFromToDate(Device device) {
@@ -102,7 +88,7 @@ public class Mysqlconn {
     public boolean eszkozHozzaadasa(String pname, int maxDay) {
         int toReturn = -1;
         try {
-            PreparedStatement insert = conn.prepareStatement("INSERT INTO Devices (name, max_days) VALUES (?,?)");
+            PreparedStatement insert = conn.prepareStatement("INSERT INTO Devices (`name`, max_days) VALUES (?,?)");
             insert.setString(1,pname);
             insert.setInt(2,maxDay);
             toReturn = insert.executeUpdate();
@@ -116,9 +102,10 @@ public class Mysqlconn {
     public boolean lead(Device device, User user, java.util.Date from) {
         int action = -2;
         try {
-            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=? WHERE device_id=?");
+            PreparedStatement lefoglal = conn.prepareStatement("UPDATE Devices SET rented=? user_id=? WHERE device_id=?");
             lefoglal.setBoolean(1, false);
-            lefoglal.setInt(2,device.getIndex());
+            lefoglal.setInt(2,-1);
+            lefoglal.setInt(3,device.getIndex());
 
             Calendar cal = Calendar.getInstance();
             PreparedStatement history = conn.prepareStatement("UPDATE Rent_list SET to_date=? WHERE device_id=? AND user_id=? AND from_date=?");
@@ -191,7 +178,6 @@ public class Mysqlconn {
         return history;
     }
 
-
     public HashMap<Device, String[]> getActuallyTakenDevices(User loggedINUser) {
         HashMap<Device, String[]> actuallyTaken = new HashMap<>();
 
@@ -254,5 +240,25 @@ public class Mysqlconn {
         }
 
         return futureRents;
+    }
+
+    private boolean isSameDate(java.util.Date current, java.util.Date from) {
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.setTime(current);
+        currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        currentCalendar.set(Calendar.MINUTE, 0);
+        currentCalendar.set(Calendar.SECOND, 0);
+
+        java.util.Date comperaCurrent = currentCalendar.getTime();
+
+        Calendar fromCalendar = Calendar.getInstance();
+        fromCalendar.setTime(current);
+        fromCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        fromCalendar.set(Calendar.MINUTE, 0);
+        fromCalendar.set(Calendar.SECOND, 0);
+
+        java.util.Date compareFrom = fromCalendar.getTime();
+
+        return comperaCurrent.equals(compareFrom);
     }
 }

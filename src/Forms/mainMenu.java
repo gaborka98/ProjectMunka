@@ -25,8 +25,10 @@ public class mainMenu extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (loginUser.getRank().equalsIgnoreCase("vezeto")) {
                     new vezetoieszkozlista(loginUser).setVisible(true);
+
                 } else {
                     new List(loginUser).setVisible(true);
+
                 }
             }
         });
@@ -41,6 +43,7 @@ public class mainMenu extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new profilMenu(loginUser).setVisible(true);
+                dispose();
             }
         });
     }

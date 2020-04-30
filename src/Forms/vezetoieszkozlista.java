@@ -100,8 +100,8 @@ public class vezetoieszkozlista extends javax.swing.JFrame {
 
                 fromDate = asd.FromDateToLead;
 
-                updateList();
                 allDevice = conn.getAllDevice();
+                updateList();
             }
         });
         visszaButton.addActionListener(new ActionListener() {
