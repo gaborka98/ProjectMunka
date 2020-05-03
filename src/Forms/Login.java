@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 
 
 public class Login extends javax.swing.JFrame {
+    public static final String ROSSZ_JELSZÓ = "Rossz jelszó";
     public static Mysqlconn connection = new Mysqlconn();
 
     private JTextField usrTextField;
@@ -70,8 +71,13 @@ public class Login extends javax.swing.JFrame {
         String pw = passTextField.getText();
         User loginUser = connection.getUser(username);
 
+        if (loginUser == null) {
+            JOptionPane.showMessageDialog(null, "Felhasználónév nem található!");
+            return;
+        }
+
         if (!encryptStringSha1(username + ":" + pw).equals(loginUser.getPassword())) {
-            JOptionPane.showMessageDialog(null, "Login failed...");
+            JOptionPane.showMessageDialog(null, ROSSZ_JELSZÓ);
             return;
         }
         new mainMenu(loginUser).setVisible(true);
